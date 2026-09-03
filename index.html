@@ -63,14 +63,15 @@
   }
   .nav-avatar-wrapper {
     position: relative;
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     padding: 2px;
     background: linear-gradient(135deg, var(--gold), var(--teal));
     box-shadow: 0 0 12px rgba(206, 159, 76, 0.2);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
+    overflow: hidden;
   }
   .nav-avatar-wrapper:hover {
     transform: scale(1.08);
@@ -81,7 +82,8 @@
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    background: #FFFFFF; /* Fond blanc */
+    object-position: top center; /* Ajusté pour bien centrer le visage */
+    background: #FFFFFF;
     display: block;
   }
 
@@ -102,6 +104,7 @@
   .avatar-modal img {
     max-width: 85%;
     max-height: 85vh;
+    object-fit: contain;
     border-radius: 8px;
     border: 2px solid var(--gold);
     box-shadow: 0 0 25px rgba(206, 159, 76, 0.4);
@@ -619,10 +622,9 @@
   </div>
 </div>
 
-<!-- Modale d'agrandissement de la photo -->
 <div id="avatarModal" class="avatar-modal" onclick="closeAvatarModal()">
   <span class="avatar-modal-close">&times;</span>
-  <img id="modalImg" src="https://github.com/abdoulgafar28/portfolio/blob/main/images/photo_gaf.png" alt="KONATE Abdoul Gafar - Photo de profil">
+  <img id="modalImg" src="https://raw.githubusercontent.com/abdoulgafar28/portfolio/main/images/photo_gaf.png" alt="KONATE Abdoul Gafar - Photo de profil">
 </div>
 
 <script>
