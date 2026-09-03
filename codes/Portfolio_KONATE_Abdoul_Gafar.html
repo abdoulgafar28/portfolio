@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KONATE Abdoul Gafar — Développeur Web Full-Stack &amp; Mobile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0E1826;
+    --bg-deep:#0A121D;
+    --surface:#152437;
+    --surface-2:#1B2E45;
+    --line: rgba(201,154,68,0.22);
+    --line-teal: rgba(79,184,166,0.28);
+    --text:#F1ECE1;
+    --text-muted:#93A4B8;
+    --text-dim:#5E7086;
+    --gold:#CE9F4C;
+    --gold-soft:#8C6C33;
+    --teal:#4FB8A6;
+    --teal-soft:#2E6E63;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:"IBM Plex Sans", sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{ background:var(--gold); color:#0E1826; }
+
+  .wrap{ max-width:960px; margin:0 auto; padding:0 32px; }
+  a{ color:inherit; }
+
+  .mono{ font-family:"IBM Plex Mono", monospace; }
+
+  h1,h2,h3{ font-family:"Fraunces", serif; font-weight:600; margin:0; }
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky; top:0; z-index:50;
+    background:rgba(14,24,38,0.86);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:960px; margin:0 auto; padding:12px 32px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  
+  /* Photo de profil stylisée et cliquable */
+  .nav-profile-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+  }
+  .nav-avatar-wrapper {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    padding: 2px;
+    background: linear-gradient(135deg, var(--gold), var(--teal));
+    box-shadow: 0 0 12px rgba(206, 159, 76, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+  .nav-avatar-wrapper:hover {
+    transform: scale(1.08);
+    box-shadow: 0 0 16px rgba(79, 184, 166, 0.4);
+  }
+  .nav-avatar {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    background: #FFFFFF; /* Fond blanc */
+    display: block;
+  }
+
+  /* Modale d'agrandissement de l'image */
+  .avatar-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(10, 18, 29, 0.9);
+    backdrop-filter: blur(5px);
+    justify-content: center;
+    align-items: center;
+  }
+  .avatar-modal img {
+    max-width: 85%;
+    max-height: 85vh;
+    border-radius: 8px;
+    border: 2px solid var(--gold);
+    box-shadow: 0 0 25px rgba(206, 159, 76, 0.4);
+    background: #FFFFFF;
+  }
+  .avatar-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: var(--text);
+    font-size: 35px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .nav-links{ display:flex; gap:26px; list-style:none; margin:0; padding:0; }
+  .nav-links a{
+    text-decoration:none; color:var(--text-muted); font-size:14px;
+    transition:color .2s ease;
+  }
+  .nav-links a:hover{ color:var(--gold); }
+  @media (max-width:640px){ .nav-links{ gap:14px; } .nav-links a{ font-size:12.5px; } }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative; overflow:hidden;
+    padding:96px 0 90px;
+    border-bottom:1px solid var(--line);
+  }
+  .hero-net{
+    position:absolute; top:0; right:-8%; width:62%; height:100%;
+    opacity:0.55; pointer-events:none;
+  }
+  .hero-inner{ position:relative; z-index:2; }
+  .eyebrow-loc{
+    font-size:13px; color:var(--teal); margin-bottom:22px; display:flex; align-items:center; gap:8px;
+  }
+  .eyebrow-loc .dot{ width:6px; height:6px; border-radius:50%; background:var(--teal); box-shadow:0 0 0 4px rgba(79,184,166,0.18); }
+  .hero h1{
+    font-size:clamp(42px, 7vw, 68px);
+    line-height:1.02;
+    color:var(--text);
+  }
+  .hero h1 em{ font-style:italic; color:var(--gold); font-weight:500; }
+  .hero .role{
+    margin-top:18px;
+    font-size:clamp(18px, 2.4vw, 22px);
+    color:var(--text-muted);
+    max-width:560px;
+    font-weight:400;
+  }
+  .hero .tagline{
+    margin-top:26px;
+    max-width:520px;
+    font-size:16px;
+    color:var(--text-muted);
+    border-left:2px solid var(--gold-soft);
+    padding-left:16px;
+  }
+  .hero-tags{ display:flex; flex-wrap:wrap; gap:10px; margin-top:34px; }
+  .tag{
+    font-family:"IBM Plex Mono", monospace; font-size:12.5px;
+    color:var(--teal); border:1px solid var(--line-teal);
+    padding:6px 12px; border-radius:3px; background:rgba(79,184,166,0.05);
+  }
+  .hero-cta{ margin-top:38px; display:flex; gap:16px; flex-wrap:wrap; }
+  .btn{
+    display:inline-block; padding:12px 22px; font-size:14.5px; text-decoration:none;
+    border-radius:2px; font-weight:500; letter-spacing:0.2px; transition:all .2s ease;
+  }
+  .btn-primary{ background:var(--gold); color:#1B120A; }
+  .btn-primary:hover{ background:#dcae5b; }
+  .btn-ghost{ border:1px solid var(--line); color:var(--text); }
+  .btn-ghost:hover{ border-color:var(--gold); color:var(--gold); }
+
+  /* ---------- SECTION SHARED ---------- */
+  section{ padding:76px 0; border-bottom:1px solid var(--line); }
+  section:last-of-type{ border-bottom:none; }
+  .section-head{ display:flex; align-items:baseline; gap:18px; margin-bottom:40px; }
+  .section-num{ font-family:"IBM Plex Mono", monospace; color:var(--gold-soft); font-size:13px; }
+  .section-head h2{ font-size:clamp(26px,3.4vw,34px); color:var(--text); }
+
+  /* ---------- PROFIL ---------- */
+  .profil-grid{ display:grid; grid-template-columns:1.5fr 1fr; gap:56px; }
+  .profil-grid p{ color:var(--text-muted); font-size:16.5px; margin:0 0 16px; }
+  .facts{ display:flex; flex-direction:column; gap:18px; }
+  .fact{ border-top:1px solid var(--line); padding-top:12px; }
+  .fact .k{ font-family:"IBM Plex Mono", monospace; font-size:11.5px; color:var(--teal); text-transform:uppercase; letter-spacing:1px; }
+  .fact .v{ margin-top:4px; font-size:15px; color:var(--text); }
+  @media (max-width:760px){ .profil-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- COMPETENCES ---------- */
+  .skills-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--line); border:1px solid var(--line); }
+  .skill-block{ background:var(--bg); padding:26px 28px; }
+  .skill-block h3{ font-size:15px; color:var(--gold); font-family:"IBM Plex Mono", monospace; font-weight:500; text-transform:none; margin-bottom:14px; }
+  .skill-block .items{ display:flex; flex-wrap:wrap; gap:8px; }
+  .chip{ font-size:13px; color:var(--text-muted); border:1px solid var(--surface-2); padding:5px 10px; border-radius:3px; background:var(--surface); }
+  @media (max-width:640px){ .skills-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- PROJETS ---------- */
+  .project{
+    display:grid; grid-template-columns:210px 1fr; gap:34px;
+    padding:34px 0; border-top:1px solid var(--line);
+  }
+  .project:first-child{ border-top:none; }
+  .project-meta{ }
+  .project-meta .year{ font-family:"IBM Plex Mono", monospace; color:var(--text-dim); font-size:13px; }
+  .project-meta .stack{ margin-top:12px; display:flex; flex-direction:column; gap:6px; }
+  .project-meta .stack span{ font-family:"IBM Plex Mono", monospace; font-size:11.5px; color:var(--teal); }
+  .project h3{ font-size:22px; color:var(--text); margin-bottom:4px; }
+  .project .sub{ color:var(--gold); font-size:13.5px; margin-bottom:14px; font-family:"IBM Plex Mono", monospace; }
+  .project ul{ margin:0; padding-left:18px; color:var(--text-muted); font-size:15px; }
+  .project li{ margin-bottom:7px; }
+  @media (max-width:700px){ .project{ grid-template-columns:1fr; gap:14px; } }
+
+  /* ---------- EXPERIENCE TIMELINE ---------- */
+  .timeline{ position:relative; padding-left:34px; }
+  .timeline::before{
+    content:""; position:absolute; left:6px; top:6px; bottom:6px; width:1px;
+    background:linear-gradient(var(--gold-soft), var(--teal-soft));
+  }
+  .tl-item{ position:relative; padding-bottom:38px; }
+  .tl-item:last-child{ padding-bottom:0; }
+  .tl-item::before{
+    content:""; position:absolute; left:-34px; top:4px; width:11px; height:11px;
+    border-radius:50%; background:var(--bg); border:2px solid var(--gold);
+  }
+  .tl-item .date{ font-family:"IBM Plex Mono", monospace; font-size:12.5px; color:var(--teal); }
+  .tl-item h3{ font-size:18px; margin-top:6px; color:var(--text); }
+  .tl-item .org{ color:var(--text-muted); font-size:14px; margin-top:2px; }
+  .tl-item ul{ margin:12px 0 0; padding-left:18px; color:var(--text-muted); font-size:14.5px; }
+  .tl-item li{ margin-bottom:5px; }
+
+  /* ---------- CERTIFS ---------- */
+  .cert-cols{ display:grid; grid-template-columns:repeat(2,1fr); gap:0 40px; }
+  .cert-list{ list-style:none; margin:0; padding:0; }
+  .cert-list li{
+    display:flex; justify-content:space-between; gap:12px;
+    padding:12px 0; border-top:1px solid var(--line); font-size:14.5px;
+  }
+  .cert-list li span.provider{ color:var(--text-dim); font-family:"IBM Plex Mono", monospace; font-size:12px; white-space:nowrap; }
+  @media (max-width:700px){ .cert-cols{ grid-template-columns:1fr; } }
+
+  /* ---------- FOOTER GRID: formation / langues / interets ---------- */
+  .foot-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:40px; }
+  .foot-grid h3{ font-family:"IBM Plex Mono", monospace; font-size:13px; color:var(--gold); text-transform:uppercase; letter-spacing:1px; margin-bottom:16px; font-weight:500; }
+  .foot-grid .row{ display:flex; justify-content:space-between; font-size:14px; padding:8px 0; border-top:1px solid var(--line); color:var(--text-muted); }
+  .foot-grid .row b{ color:var(--text); font-weight:500; }
+  @media (max-width:760px){ .foot-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- CONTACT ---------- */
+  .contact{ background:var(--bg-deep); border-top:1px solid var(--line); padding:80px 0 50px; }
+  .contact h2{ font-size:clamp(30px,5vw,46px); max-width:600px; }
+  .contact .sub{ color:var(--text-muted); margin-top:14px; max-width:480px; font-size:16px; }
+  .contact-links{ margin-top:40px; display:flex; flex-wrap:wrap; gap:14px; }
+  .contact-links a{
+    text-decoration:none; border:1px solid var(--line); padding:14px 20px;
+    display:flex; align-items:center; gap:10px; font-size:14.5px; border-radius:2px;
+    transition:all .2s ease;
+  }
+  .contact-links a:hover{ border-color:var(--gold); color:var(--gold); }
+  .contact-links .k{ font-family:"IBM Plex Mono", monospace; font-size:11px; color:var(--text-dim); }
+  footer.bottom{
+    max-width:960px; margin:60px auto 0; padding:24px 32px 0; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px;
+    font-size:12.5px; color:var(--text-dim); font-family:"IBM Plex Mono", monospace;
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="nav-profile-link" onclick="openAvatarModal()" title="Cliquer pour voir la photo en grand">
+      <div class="nav-avatar-wrapper">
+        <img class="nav-avatar" src="C:\Me\Mes dossiers\mes documents\portfolio\images\photo_gaf.png" alt="KONATE Abdoul Gafar">
+      </div>
+    </div>
+    <ul class="nav-links">
+      <li><a href="#profil">Profil</a></li>
+      <li><a href="#competences">Compétences</a></li>
+      <li><a href="#projets">Projets</a></li>
+      <li><a href="#experience">Expérience</a></li>
+      <li><a href="#certifications">Certifications</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </div>
+</header>
+
+<section class="hero">
+  <svg class="hero-net" viewBox="0 0 600 700" xmlns="http://www.w3.org/2000/svg">
+    <g stroke="#CE9F4C" stroke-width="1" opacity="0.5">
+      <line x1="480" y1="60" x2="360" y2="180"/>
+      <line x1="360" y1="180" x2="430" y2="300"/>
+      <line x1="360" y1="180" x2="230" y2="230"/>
+      <line x1="230" y1="230" x2="280" y2="380"/>
+      <line x1="430" y1="300" x2="280" y2="380"/>
+      <line x1="280" y1="380" x2="380" y2="470"/>
+      <line x1="380" y1="470" x2="520" y2="440"/>
+      <line x1="430" y1="300" x2="540" y2="250"/>
+      <line x1="230" y1="230" x2="120" y2="180"/>
+      <line x1="280" y1="380" x2="150" y2="420"/>
+      <line x1="380" y1="470" x2="330" y2="600"/>
+    </g>
+    <g stroke="#4FB8A6" stroke-width="1" opacity="0.35">
+      <line x1="120" y1="180" x2="60" y2="300"/>
+      <line x1="150" y1="420" x2="60" y2="480"/>
+      <line x1="520" y1="440" x2="560" y2="560"/>
+      <line x1="330" y1="600" x2="430" y2="650"/>
+    </g>
+    <g fill="#CE9F4C">
+      <circle cx="480" cy="60" r="4"/>
+      <circle cx="360" cy="180" r="5"/>
+      <circle cx="430" cy="300" r="4"/>
+      <circle cx="230" cy="230" r="4"/>
+      <circle cx="280" cy="380" r="5.5"/>
+      <circle cx="380" cy="470" r="4"/>
+      <circle cx="520" cy="440" r="4"/>
+      <circle cx="540" cy="250" r="3.5"/>
+    </g>
+    <g fill="#4FB8A6">
+      <circle cx="120" cy="180" r="3.5"/>
+      <circle cx="150" cy="420" r="3.5"/>
+      <circle cx="60" cy="300" r="3"/>
+      <circle cx="60" cy="480" r="3"/>
+      <circle cx="560" cy="560" r="3"/>
+      <circle cx="330" cy="600" r="4"/>
+      <circle cx="430" cy="650" r="3"/>
+    </g>
+  </svg>
+  <div class="wrap hero-inner">
+    <div class="eyebrow-loc"><span class="dot"></span>Bobo-Dioulasso, Burkina Faso — disponible immédiatement</div>
+    <h1>KONATE<br>Abdoul <em>Gafar</em></h1>
+    <p class="role">Développeur Web Full-Stack &amp; Mobile — React.js, Django, Flutter</p>
+    <p class="tagline">Formé aux réseaux et systèmes avant de me spécialiser en développement : je conçois des applications complètes, du modèle de données jusqu'au déploiement, avec une attention particulière portée à la fiabilité de l'infrastructure sous-jacente.</p>
+    <div class="hero-tags">
+      <span class="tag">React.js</span>
+      <span class="tag">Django REST</span>
+      <span class="tag">Flutter / Dart</span>
+      <span class="tag">PostgreSQL</span>
+      <span class="tag">MySQL</span>
+      <span class="tag">Git / Docker</span>
+    </div>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="mailto:konateabdoul903@gmail.com">Me contacter</a>
+      <a class="btn btn-ghost" href="#projets">Voir les projets</a>
+    </div>
+  </div>
+</section>
+
+<section id="profil">
+  <div class="wrap">
+    <div class="section-head"><span class="section-num">01</span><h2>Profil</h2></div>
+    <div class="profil-grid">
+      <div>
+        <p>Titulaire d'une Licence en Ingénierie des Systèmes d'Information (Université Nazi Boni / ESI), je développe depuis 2023 des applications web et mobiles complètes — pas seulement des exercices académiques. Sira, une plateforme de livraison et VTC, et Sira Couture, une application de gestion d'atelier de couture avec paiement mobile money, sont mes deux projets les plus aboutis : conception du modèle de données, API REST, interface mobile Flutter et panel d'administration React, jusqu'au déploiement.</p>
+        <p>Mon parcours en réseaux et maintenance informatique (quatre stages entre 2023 et 2026) m'a donné une compréhension concrète de l'infrastructure — authentification, déploiement, connectivité — que j'applique directement à la manière dont je construis mes applications : API stables, gestion propre des erreurs, déploiement fiable.</p>
+        <p>Je m'intéresse aujourd'hui à l'IA générative et aux architectures RAG/LLM, que j'approfondis en parallèle de mon activité de développement freelance.</p>
+      </div>
+      <div class="facts">
+        <div class="fact"><div class="k">Formation</div><div class="v">Licence Ingénierie des Systèmes d'Information — Université Nazi Boni / ESI, 2024–2025</div></div>
+        <div class="fact"><div class="k">Expérience</div><div class="v">4 stages (2023–2026) en réseaux, systèmes d'information et déploiement d'applications</div></div>
+        <div class="fact"><div class="k">Spécialités</div><div class="v">Full-stack web (React/Django) &amp; mobile (Flutter) — de la conception au déploiement</div></div>
+        <div class="fact"><div class="k">Langues</div><div class="v">Français (excellent) · Dioula (excellent à l'oral) · Anglais (assez bien à l'écrit)</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="competences">
+  <div class="wrap">
+    <div class="section-head"><span class="section-num">02</span><h2>Compétences techniques</h2></div>
+    <div class="skills-grid">
+      <div class="skill-block">
+        <h3>Frontend Web</h3>
+        <div class="items">
+          <span class="chip">React.js</span><span class="chip">Redux</span><span class="chip">JavaScript</span>
+          <span class="chip">HTML5</span><span class="chip">CSS3</span><span class="chip">Tailwind CSS</span>
+          <span class="chip">shadcn/ui</span><span class="chip">Ant Design</span><span class="chip">TypeScript (notions)</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <h3>Backend &amp; API</h3>
+        <div class="items">
+          <span class="chip">Python</span><span class="chip">Django</span><span class="chip">Django REST Framework</span>
+          <span class="chip">APIs REST</span><span class="chip">JWT / OTP</span><span class="chip">Node.js (notions)</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <h3>Mobile</h3>
+        <div class="items">
+          <span class="chip">Flutter</span><span class="chip">Dart</span><span class="chip">Kotlin</span><span class="chip">Java</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <h3>Bases de données</h3>
+        <div class="items">
+          <span class="chip">PostgreSQL</span><span class="chip">MySQL</span><span class="chip">SQL</span><span class="chip">phpMyAdmin</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <h3>Outils &amp; déploiement</h3>
+        <div class="items">
+          <span class="chip">Git / GitHub</span><span class="chip">Docker</span><span class="chip">Linux</span>
+          <span class="chip">Render</span><span class="chip">Infomaniak</span><span class="chip">WordPress</span>
+        </div>
+      </div>
+      <div class="skill-block">
+        <h3>Réseaux &amp; sécurité</h3>
+        <div class="items">
+          <span class="chip">TCP/IP</span><span class="chip">Cisco Packet Tracer</span><span class="chip">VPN (OpenVPN, IPsec, WireGuard)</span>
+          <span class="chip">pfSense</span><span class="chip">Zero Trust</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projets">
+  <div class="wrap">
+    <div class="section-head"><span class="section-num">03</span><h2>Projets</h2></div>
+
+    <div class="project">
+      <div class="project-meta">
+        <div class="year">2025 — 2026</div>
+        <div class="stack">
+          <span>Flutter</span><span>Django REST</span><span>React / Redux</span><span>PostgreSQL</span><span>Render</span>
+        </div>
+      </div>
+      <div>
+        <h3>Sira</h3>
+        <div class="sub">Plateforme de livraison &amp; VTC</div>
+        <ul>
+          <li>Application mobile Flutter (client et chauffeur) : formulaire de livraison avec sélection d'adresse OpenStreetMap/Nominatim, portefeuille intégré, carte GPS en temps réel.</li>
+          <li>API Django REST Framework : authentification par OTP et JWT, normalisation des numéros de téléphone multi-formats, déploiement sur Render avec PostgreSQL.</li>
+          <li>Panel d'administration React/Redux : tarification dynamique, validation des chauffeurs, contrôle de fraude, gestion des courses et des clients.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-meta">
+        <div class="year">2025 — en finalisation</div>
+        <div class="stack">
+          <span>Flutter</span><span>Django</span><span>React / Ant Design</span>
+        </div>
+      </div>
+      <div>
+        <h3>Sira Couture <span style="color:var(--text-dim); font-size:14px; font-family:'IBM Plex Mono', monospace;">(Fani Couture)</span></h3>
+        <div class="sub">Application de gestion d'atelier de couture</div>
+        <ul>
+          <li>Application mobile Flutter de 24 écrans pour la gestion des clients, commandes, mesures, modèles, paiements et dates de récupération.</li>
+          <li>API Django de licences et abonnements, avec intégration des paiements Orange Money, Moov Money et Telecel Money.</li>
+          <li>Interface d'administration React/Ant Design pour l'approbation des paiements et la gestion des clés d'activation.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-meta">
+        <div class="year">2024</div>
+        <div class="stack"><span>Flutter</span></div>
+      </div>
+      <div>
+        <h3>Yarku</h3>
+        <div class="sub">Valorisation du patrimoine culturel</div>
+        <ul>
+          <li>Application mobile orientée contenu dédiée à la préservation du patrimoine culturel, à la valorisation des traditions et à la participation communautaire interactive.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-meta">
+        <div class="year">2024</div>
+        <div class="stack"><span>React.js</span><span>TypeScript</span><span>Tailwind CSS</span></div>
+      </div>
+      <div>
+        <h3>Gestion Hôtel / Auberge</h3>
+        <div class="sub">Application web de gestion hôtelière</div>
+        <ul>
+          <li>Cinq modules : tableau de bord, chambres, réservations, clients et facturation, avec formatage des montants en FCFA.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="project">
+      <div class="project-meta">
+        <div class="year">Projets académiques</div>
+        <div class="stack"><span>Modélisation de données</span></div>
+      </div>
+      <div>
+        <h3>Systèmes de gestion</h3>
+        <div class="sub">Restaurant &amp; location de maisons</div>
+        <ul>
+          <li>Conception de systèmes de gestion de restaurant et de location de maisons, avec modélisation des données et logique applicative.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <div class="section-head"><span class="section-num">04</span><h2>Expérience professionnelle</h2></div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="date">2026</div>
+        <h3>Stage — Systèmes d'information, réseaux, déploiement d'application</h3>
+        <div class="org">Université Daniel Ouezzin Coulibaly</div>
+        <ul>
+          <li>Déploiement du système de gestion de bibliothèque PMB.</li>
+          <li>Administration réseau, maintenance informatique et support technique aux utilisateurs.</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="date">2025</div>
+        <h3>Stage — Systèmes d'information</h3>
+        <div class="org">CROMMIX</div>
+        <ul>
+          <li>Participation à la mise en place d'une plateforme web de kinésithérapie sous WordPress.</li>
+          <li>Manipulation de base de données via phpMyAdmin et déploiement sur Infomaniak.</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="date">2024</div>
+        <h3>Stage — Réseau informatique</h3>
+        <div class="org">SONABEL, Bobo-Dioulasso</div>
+        <ul>
+          <li>Participation aux activités réseau et au diagnostic des problèmes de connectivité.</li>
+        </ul>
+      </div>
+      <div class="tl-item">
+        <div class="date">2023</div>
+        <h3>Stage — Réseau et maintenance informatique</h3>
+        <div class="org">DAKOUPA Services</div>
+        <ul>
+          <li>Maintenance informatique, interventions réseau et assistance technique.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="certifications">
+  <div class="wrap">
+    <div class="section-head"><span class="section-num">05</span><h2>Certifications</h2></div>
+    <div class="cert-cols">
+      <ul class="cert-list">
+        <li><span>Developing Front-End Apps with React</span><span class="provider">IBM · Coursera</span></li>
+        <li><span>Introduction to Back-End Development</span><span class="provider">Meta · Coursera</span></li>
+        <li><span>APIs</span><span class="provider">Meta · Coursera</span></li>
+        <li><span>Flutter and Dart: iOS &amp; Android Apps</span><span class="provider">IBM · Coursera</span></li>
+        <li><span>Programming Fundamentals in Kotlin</span><span class="provider">Meta · Coursera</span></li>
+        <li><span>Version Control</span><span class="provider">Meta · Coursera</span></li>
+        <li><span>Introduction to Android Mobile App Dev.</span><span class="provider">Meta · Coursera</span></li>
+      </ul>
+      <ul class="cert-list">
+        <li><span>Principles of UX/UI Design</span><span class="provider">Meta · Coursera</span></li>
+        <li><span>Foundations of Cybersecurity</span><span class="provider">Google · Coursera</span></li>
+        <li><span>Cyber Security Tools and Technologies</span><span class="provider">Microsoft · Coursera</span></li>
+        <li><span>Containers &amp; Kubernetes Essentials</span><span class="provider">IBM · Coursera</span></li>
+        <li><span>Introduction to Cloud Computing</span><span class="provider">IBM · Coursera</span></li>
+        <li><span>Python for Data Science, AI &amp; Dev.</span><span class="provider">IBM · Coursera</span></li>
+        <li><span>Data Analysis with Python</span><span class="provider">IBM · Coursera</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="infos">
+  <div class="wrap">
+    <div class="section-head"><span class="section-num">06</span><h2>Formation, langues &amp; centres d'intérêt</h2></div>
+    <div class="foot-grid">
+      <div>
+        <h3>Formation</h3>
+        <div class="row"><b>Licence ISI</b></div>
+        <div class="row">Université Nazi Boni / ESI <span>2024–2025</span></div>
+        <div class="row">Baccalauréat Série D <span>2021–2022</span></div>
+        <div class="row">Collège Privé Saint Gabriel</div>
+      </div>
+      <div>
+        <h3>Langues</h3>
+        <div class="row">Français <b>Excellent</b></div>
+        <div class="row">Dioula <b>Excellent (oral)</b></div>
+        <div class="row">Anglais <b>Assez bien (écrit)</b></div>
+        <div class="row">Waala <b>Assez bien (oral)</b></div>
+        <div class="row">Mooré <b>Passable (oral)</b></div>
+      </div>
+      <div>
+        <h3>Centres d'intérêt</h3>
+        <div class="row">Sport <b>Athlétisme</b></div>
+        <div class="row">Cinéma <b>Films sur la technologie</b></div>
+        <div class="row">Jeux vidéo</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="contact" id="contact">
+  <div class="wrap">
+    <div class="section-num" style="margin-bottom:14px;">07 — Contact</div>
+    <h2>Discutons de votre <em style="font-style:italic; color:var(--gold);">prochain projet</em>.</h2>
+    <p class="sub">Disponible immédiatement pour un poste de développeur full-stack web &amp; mobile, à Bobo-Dioulasso ou en remote.</p>
+    <div class="contact-links">
+      <a href="mailto:konateabdoul903@gmail.com"><span class="k">EMAIL</span> konateabdoul903@gmail.com</a>
+      <a href="tel:+22677631951"><span class="k">TÉL</span> +226 77 63 19 51</a>
+      <a href="https://www.linkedin.com/in/abdoul-gafar-" target="_blank" rel="noopener"><span class="k">LINKEDIN</span> /in/abdoul-gafar</a>
+      <a href="https://github.com/abdoulgafar28" target="_blank" rel="noopener"><span class="k">GITHUB</span> /abdoulgafar28</a>
+    </div>
+    <footer class="bottom">
+      <span>KONATE ABDOUL GAFAR</span>
+      <span>BOBO-DIOULASSO, BURKINA FASO</span>
+    </footer>
+  </div>
+</div>
+
+<!-- Modale d'agrandissement de la photo -->
+<div id="avatarModal" class="avatar-modal" onclick="closeAvatarModal()">
+  <span class="avatar-modal-close">&times;</span>
+  <img id="modalImg" src="C:\Me\Mes dossiers\mes documents\portfolio\images\photo_gaf.png" alt="KONATE Abdoul Gafar - Photo de profil">
+</div>
+
+<script>
+  function openAvatarModal() {
+    document.getElementById('avatarModal').style.display = 'flex';
+  }
+
+  function closeAvatarModal() {
+    document.getElementById('avatarModal').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
